@@ -1,0 +1,50 @@
+name: meganimus
+base: core24
+version: '4.2'
+adopt-info: meganimus-app
+platforms:
+  amd64:
+    build-on: [amd64]
+    build-for: [amd64]
+grade: stable
+confinement: strict
+icon: io.github.kyuyrii.meganimus.png
+
+apps:
+  meganimus:
+    command: usr/bin/meganimus
+    desktop: usr/share/applications/io.github.kyuyrii.meganimus.desktop
+    common-id: io.github.kyuyrii.meganimus
+    environment:
+      HOME: $SNAP_USER_COMMON
+      QT_QPA_PLATFORMTHEME: xdgdesktopportal
+      PYTHONPATH: $SNAP/usr/lib/python3/dist-packages:$PYTHONPATH
+      LD_LIBRARY_PATH: $SNAP/lxqt-support/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$LD_LIBRARY_PATH
+      QT_PLUGIN_PATH: $SNAP/lxqt-support/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/plugins:$QT_PLUGIN_PATH
+    extensions: [kde-neon-6]
+    plugs:
+      - home
+      - removable-media
+
+parts:
+  meganimus-app:
+    plugin: nil
+    source: https://github.com/Kyuyrii/Meganimus.git
+    source-tag: $SNAPCRAFT_PROJECT_VERSION
+    parse-info: [metainfo/io.github.kyuyrii.meganimus.metainfo.xml]
+    override-pull: |
+      craftctl default
+      install -Dm755 meganimus $CRAFT_PART_INSTALL/usr/bin/meganimus
+      install -Dm644 io.github.kyuyrii.meganimus.desktop $CRAFT_PART_INSTALL/usr/share/applications/io.github.kyuyrii.meganimus.desktop
+      install -Dm644 metainfo/io.github.kyuyrii.meganimus.metainfo.xml $CRAFT_PART_INSTALL/usr/share/metainfo/io.github.kyuyrii.meganimus.metainfo.xml
+      install -Dm644 translation/*.toml -t $CRAFT_PART_INSTALL/usr/share/Meganimus/translation
+
+  base-dependencies:
+    plugin: nil
+    stage-packages:
+      - python3-pyqt6
+      - python3-requests
+      - python3-psutil
+      - python3-tomlkit
+    prime:
+      - usr/lib/python3/dist-packages
