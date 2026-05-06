@@ -1,6 +1,6 @@
 name: meganimus
 base: core24
-version: '4.2'
+version: '4.3'
 adopt-info: meganimus-app
 platforms:
   amd64:
