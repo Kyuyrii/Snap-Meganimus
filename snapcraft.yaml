@@ -1,6 +1,6 @@
 name: meganimus
 base: core24
-version: '5.3'
+version: '5.4'
 adopt-info: meganimus-app
 platforms:
   amd64:
@@ -18,7 +18,7 @@ apps:
     environment:
       HOME: $SNAP_USER_COMMON
       QT_QPA_PLATFORMTHEME: xdgdesktopportal
-      PYTHONPATH: $SNAP/usr/lib/python3/dist-packages:$PYTHONPATH
+      PYTHONPATH: $SNAP/usr/lib/python3/dist-packages:$SNAP/lib/python3.12/site-packages:$PYTHONPATH
     extensions: [kde-neon-6]
     plugs:
       - home
@@ -34,10 +34,12 @@ parts:
       - PREFIX=/usr
 
   base-dependencies:
-    plugin: nil
+    plugin: python
+    source: .
     stage-packages:
       - python3-pyqt6
       - python3-requests
       - python3-tomlkit
-      - python3-qtawesome
-    prime: [usr/lib/python3/dist-packages]
+    python-packages:
+      - qtawesome
+    prime: [usr/lib/python3/dist-packages, lib/python3.12/site-packages]
