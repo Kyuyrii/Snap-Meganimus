@@ -16,7 +16,6 @@ apps:
     desktop: usr/share/applications/io.github.kyuyrii.meganimus.desktop
     common-id: io.github.kyuyrii.meganimus
     environment:
-      HOME: $SNAP_USER_COMMON
       QT_QPA_PLATFORMTHEME: xdgdesktopportal
       PYTHONPATH: $SNAP/usr/lib/python3/dist-packages:$SNAP/lib/python3.12/site-packages:$PYTHONPATH
     extensions: [kde-neon-6]
